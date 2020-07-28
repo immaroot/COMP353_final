@@ -46,6 +46,21 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+
+        'employer' => [
+            'driver' => 'session',
+            'provider' => 'employers',
+        ],
+
+        'job_seeker' => [
+            'driver' => 'session',
+            'provider' => 'job_seekers',
+        ],
     ],
 
     /*
@@ -75,6 +90,21 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Admin::class,
+        ],
+
+        'employers' => [
+            'driver' => 'eloquent',
+            'model' => App\Employer::class,
+        ],
+
+        'job_seekers' => [
+            'driver' => 'eloquent',
+            'model' => App\JobSeeker::class,
+        ],
     ],
 
     /*
