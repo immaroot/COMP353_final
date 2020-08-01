@@ -5,10 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Job Seeker Login') }}</div>
+                <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                        <form method="POST" action='{{ url("job_seeker/login") }}' aria-label="{{ __('Login') }}">
+                    <form method="POST" action="{{ route('login') }}">
                         @csrf
 
                         <div class="form-group row">
@@ -63,9 +63,6 @@
                                     </a>
                                 @endif
                             </div>
-                        </div>
-                        <div class="card-text text-center m-5">
-                            Are you an employer? <a href="{{ url('/employer/login') }}" class="card-link"> click here </a>
                         </div>
                     </form>
                 </div>

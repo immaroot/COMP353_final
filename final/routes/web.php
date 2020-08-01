@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,33 +14,68 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('admin/login', 'Auth\AdminLoginController@showAdminLoginForm');
-Route::get('employer/login', 'Auth\EmployerLoginController@showEmployerLoginForm');
-Route::get('job_seeker/login', 'Auth\JobSeekerLoginController@showJobSeekerLoginForm');
-Route::get('employer/register', 'Auth\EmployerRegisterController@showEmployerRegisterForm');
-Route::get('job_seeker/register', 'Auth\JobSeekerRegisterController@showJobSeekerRegisterForm')->name('register');
-
-Route::post('admin/login', 'Auth\AdminLoginController@login');
-Route::post('employer/login', 'Auth\EmployerLoginController@login');
-Route::post('job_seeker/login', 'Auth\JobSeekerLoginController@login')->name('login');
-Route::post('employer/register', 'Auth\EmployerRegisterController@createEmployer');
-Route::post('job_seeker/register', 'Auth\JobSeekerRegisterController@createJobSeeker');
-
+Route::get('/', 'HomeController@index');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::group(['middleware' => 'auth:admin'], function () {
-    Route::view('/admin', 'admin.dashboard');
+//All Employer Routes
+Route::group(['prefix' => 'employer'], function () {
+
+    Route::get('login', 'Auth\EmployerLoginController@showEmployerLoginForm');
+    Route::post('login', 'Auth\EmployerLoginController@login');
+
+    Route::get('register', 'Auth\EmployerRegisterController@showEmployerRegisterForm');
+    Route::post('register', 'Auth\EmployerRegisterController@createEmployer');
+
+    //Authenticated Routes
+    Route::group(['middleware' => 'auth:employer', 'namespace' => 'Employer'], function () {
+
+        Route::view('/', 'employer.dashboard');
+
+        Route::get('job_posts', 'JobPostController@index');
+        Route::get('job_posts/create', 'JobPostController@create');
+        Route::post('job_posts', 'JobPostController@store');
+        Route::get('job_posts/{job_id}', 'JobPostController@show');
+        Route::get('job_posts/{job_id}/edit/', 'JobPostController@edit');
+        Route::put('job_posts/{job_id}', 'JobPostController@update');
+        Route::delete('job_posts/{job_id}', 'JobPostController@destroy');
+
+        Route::get('profile', 'ProfileController@show');
+        Route::get('profile/edit', 'ProfileController@edit');
+        Route::post('profile/edit', 'ProfileController@update');
+    });
 });
 
-Route::group(['middleware' => 'auth:employer'], function () {
-    Route::view('/employer', 'employer.dashboard');
+//All JobSeeker Routes
+Route::group(['prefix' => 'job_seeker'], function () {
+
+    Route::get('login', 'Auth\JobSeekerLoginController@showJobSeekerLoginForm');
+    Route::post('login', 'Auth\JobSeekerLoginController@login')->name('login');
+
+    Route::get('register', 'Auth\JobSeekerRegisterController@showJobSeekerRegisterForm')->name('register');
+    Route::post('register', 'Auth\JobSeekerRegisterController@createJobSeeker');
+
+    //Authenticated Routes
+    Route::group(['middleware' => 'auth:job_seeker', 'namespace' => 'JobSeeker'], function () {
+
+        Route::view('/', 'job_seeker.dashboard');
+
+    });
 });
 
-Route::group(['middleware' => 'auth:job_seeker'], function () {
-    Route::view('/job_seeker', 'job_seeker.dashboard');
+//All Admin Routes
+Route::group(['prefix' => 'admin'], function () {
+
+    Route::get('login', 'Auth\AdminLoginController@showAdminLoginForm');
+    Route::post('login', 'Auth\AdminLoginController@login');
+
+    Route::get('register', 'Auth\AdminRegisterController@showAdminRegisterForm');
+    Route::post('register', 'Auth\AdminRegisterController@createAdmin');
+
+    //Authenticated Routes
+    Route::group(['middleware' => 'auth:admin', 'namespace' => 'Admin'], function () {
+        Route::view('/', 'admin.dashboard');
+    });
 });
+
+
 

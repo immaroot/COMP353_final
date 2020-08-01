@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\CompanyAccount;
 use App\Employer;
 use App\Http\Controllers\Controller;
+use App\WorksFor;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +28,7 @@ class EmployerRegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:employers'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -34,23 +36,25 @@ class EmployerRegisterController extends Controller
     protected function createEmployer(Request $request)
     {
         $this->validator($request->all())->validate();
+        $account = CompanyAccount::create([
+            'name' => $request['company_name'],
+            'phone' =>$request['phone'],
+            'email' => $request['email'],
+            'website' => $request['website'],
+            'level' => $request['level'],
+        ]);
         $employer = Employer::create([
             'name' => $request['name'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
+            'role' => '2',
         ]);
-        Auth::guard('employer')->login($employer);
+        WorksFor::create([
+            'user_id' => $employer->id,
+            'company_account_id' => $account->id,
+        ]);
+        Auth::login($employer);
         return redirect()->intended('employer');
-    }
-
-    protected function create(array $data)
-    {
-        dd($data);
-        return Employer::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
     }
 
     public function showEmployerRegisterForm()

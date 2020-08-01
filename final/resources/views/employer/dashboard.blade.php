@@ -8,7 +8,8 @@
                     <div class="card-header">Employer Dashboard</div>
 
                     <div class="card-body">
-                        Hi there employer
+                        Hello {{ Auth::guard('employer')->user()->name }}. You are an Employer!
+                        <a class="btn btn-primary" href="{{ url('employer/job_posts/create') }}" role="button">Post A Job!</a>
                     </div>
                 </div>
             </div>

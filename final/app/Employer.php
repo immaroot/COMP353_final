@@ -2,20 +2,27 @@
 
 namespace App;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
+use App\WorksFor;
 
-class Employer extends Authenticatable
+class Employer extends User
 {
-    use Notifiable;
+    protected $table = 'users';
 
     protected $guard = 'employer';
 
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    public static function boot()
+    {
+        parent::boot();
 
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+        static::addGlobalScope(function ($query) {
+            $query->where('role', 2);
+        });
+    }
+
+    public function company()
+    {
+        return $this->belongsToMany('App\CompanyAccount', 'works_for','user_id','company_account_id')->first();
+
+    }
 }

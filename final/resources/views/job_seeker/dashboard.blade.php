@@ -8,7 +8,7 @@
                     <div class="card-header">Job Seeker Dashboard</div>
 
                     <div class="card-body">
-                        Hi there, job seeker. Here we will have job postings for you to apply..
+                        Hi there {{ Auth::guard('job_seeker')->user()->name }}. Here we will have job postings for you to apply..
                     </div>
                 </div>
             </div>

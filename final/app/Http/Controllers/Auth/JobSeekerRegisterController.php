@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
-use App\Employer;
 use App\Http\Controllers\Controller;
 use App\JobSeeker;
+use App\JobSeekerAccount;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +26,7 @@ class JobSeekerRegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:job_seekers'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -39,6 +38,11 @@ class JobSeekerRegisterController extends Controller
             'name' => $request['name'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
+            'role' => '1',
+        ]);
+        $account = JobSeekerAccount::create([
+            'level' => $request['level'],
+            'job_seeker_id' => $job_seeker->id,
         ]);
         Auth::guard('job_seeker')->login($job_seeker);
         return redirect()->intended('job_seeker');
