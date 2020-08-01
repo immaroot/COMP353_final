@@ -17,7 +17,7 @@ class JobPostController extends Controller
 
         $employer = Employer::findOrfail(Auth::guard('employer')->user()->id);
         $job_post = new JobPost();
-        $job_post->company_account_id = $employer->company_account_id;
+        $job_post->company_account_id = $employer->company()->id;
         $job_post->employer_id = $employer->id;
 
         $request->validate([
@@ -33,6 +33,7 @@ class JobPostController extends Controller
         $job_post->save();
 
         return view('employer.posts.view', [
+            'job_id' => $job_post->id,
             'company_name' => 'test',
             'position' => $job_post->position,
             'description' => $job_post->description,
@@ -41,6 +42,8 @@ class JobPostController extends Controller
 
     public function show($id)
     {
+        Auth::guard('employer')->check();
+        
         $job_post = JobPost::findOrFail($id);
 
         return view('employer.posts.view', [
@@ -53,7 +56,14 @@ class JobPostController extends Controller
 
     public function edit($id)
     {
+        Auth::guard('employer')->check();
+
         $job_post = JobPost::findOrFail($id);
+        $user = Auth::guard('employer')->user();
+        if (!$this->userCanEdit($user, $job_post))
+        {
+            return abort('404');
+        }
         return view('employer.posts.edit', [
             'job_id' => $id,
             'position' => $job_post->position,
@@ -64,8 +74,14 @@ class JobPostController extends Controller
 
     public function update(Request $request)
     {
-        $job_post = JobPost::findOrFail($request['job_id']);
+        Auth::guard('employer')->check();
 
+        $job_post = JobPost::findOrFail($request['job_id']);
+        $user = Auth::guard('employer')->user();
+        if (!$this->userCanEdit($user, $job_post))
+        {
+            return abort('404');
+        }
         $request->validate([
             'job_id' => 'required',
             'position' => 'required',
@@ -85,7 +101,7 @@ class JobPostController extends Controller
     {
         Auth::guard('employer')->check();
 
-        $company = CompanyAccount::find(Auth::guard('employer')->user()->company->id);
+        $company = CompanyAccount::find(Auth::guard('employer')->user()->company()->id);
 
         $job_posts = $company->job_posts;
 
@@ -102,6 +118,11 @@ class JobPostController extends Controller
     public function destroy($id)
     {
         Auth::guard('employer')->check();
+        $user = Auth::guard('employer')->user();
+        if (!$this->userCanEdit($user, $job_post))
+        {
+            return abort('404');
+        }
 
         $job_post = JobPost::findOrFail($id);
 
@@ -109,4 +130,10 @@ class JobPostController extends Controller
 
         return $this->index();
     }
+
+    protected function userCanEdit(Employer $user, JobPost $job_post)
+    {
+        return $user->company()->id == $job_post->company->id;
+    }
+
 }

@@ -8,7 +8,7 @@
                     <div class="card-header">{{ __('Post A Job') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ url('employer/job_posts/create') }}" aria-label="{{ __('Job Post') }}">
+                        <form method="POST" action="{{ url('employer/job_posts') }}" aria-label="{{ __('Job Post') }}">
                             @csrf
 
                             <div class="form-group row">
