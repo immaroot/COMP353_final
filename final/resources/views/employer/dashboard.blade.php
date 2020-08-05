@@ -10,6 +10,7 @@
                     <div class="card-body">
                         Hello {{ Auth::guard('employer')->user()->name }}. You are an Employer!
                         <a class="btn btn-primary" href="{{ url('employer/job_posts/create') }}" role="button">Post A Job!</a>
+                        <a class="btn btn-primary" href="{{ url('employer/employees/create') }}" role="button">Create an Employee Account</a>
                     </div>
                 </div>
             </div>

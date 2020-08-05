@@ -42,6 +42,9 @@ Route::group(['prefix' => 'employer'], function () {
         Route::get('profile', 'ProfileController@show');
         Route::get('profile/edit', 'ProfileController@edit');
         Route::post('profile/edit', 'ProfileController@update');
+
+        Route::get('employees/create', 'EmployeeController@create');
+        Route::post('employees', 'EmployeeController@store');
     });
 });
 
