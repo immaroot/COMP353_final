@@ -36,19 +36,23 @@ class EmployerRegisterController extends Controller
     protected function createEmployer(Request $request)
     {
         $this->validator($request->all())->validate();
-        $account = CompanyAccount::create([
-            'name' => $request['company_name'],
-            'phone' =>$request['phone'],
-            'email' => $request['email'],
-            'website' => $request['website'],
-            'level' => $request['level'],
-        ]);
+
         $employer = Employer::create([
             'name' => $request['name'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
             'role' => '2',
         ]);
+
+        $account = CompanyAccount::create([
+            'name' => $request['company_name'],
+            'phone' =>$request['phone'],
+            'email' => $request['email'],
+            'website' => $request['website'],
+            'level' => $request['level'],
+            'company_manager' => $employer->id,
+        ]);
+        
         WorksFor::create([
             'user_id' => $employer->id,
             'company_account_id' => $account->id,
