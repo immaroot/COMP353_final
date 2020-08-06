@@ -43,7 +43,7 @@ class JobPostController extends Controller
     public function show($id)
     {
         Auth::guard('employer')->check();
-        
+
         $job_post = JobPost::findOrFail($id);
 
         return view('employer.posts.view', [
@@ -118,13 +118,13 @@ class JobPostController extends Controller
     public function destroy($id)
     {
         Auth::guard('employer')->check();
+
+        $job_post = JobPost::findOrFail($id);
         $user = Auth::guard('employer')->user();
         if (!$this->userCanEdit($user, $job_post))
         {
             return abort('404');
         }
-
-        $job_post = JobPost::findOrFail($id);
 
         $job_post->destroy();
 

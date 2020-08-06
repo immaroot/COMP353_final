@@ -20,6 +20,7 @@ class CreateCompanyAccountsTable extends Migration
             $table->string('email');
             $table->string('website');
             $table->integer('level');
+            $table->unsignedInteger('company_manager_user_id');
             $table->timestamps();
         });
     }
