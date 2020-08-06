@@ -50,9 +50,9 @@ class EmployerRegisterController extends Controller
             'email' => $request['email'],
             'website' => $request['website'],
             'level' => $request['level'],
-            'company_manager' => $employer->id,
+            'company_manager_user_id' => $employer->id,
         ]);
-        
+
         WorksFor::create([
             'user_id' => $employer->id,
             'company_account_id' => $account->id,

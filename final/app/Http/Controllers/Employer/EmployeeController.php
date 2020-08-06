@@ -12,40 +12,56 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+
 class EmployeeController extends Controller
 {
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
+        ]);
+    }
 
     public function create(){
         Auth::guard('employer')->check();
-    
+
         return view('employer.employees.create');
     }
 
     public function store(Request $request){
         Auth::guard('employer')->check();
-        
-        //also should we check if the employee is the manager? fix after
-        $employer = Employer::findOrfail(Auth::guard('employer') -> user() ->id);
 
-        $employee = new Employer();
+        $employer = Auth::guard('employer')->user();
+        if (!$this->userCanAddUser($employer))
+        {
+            return abort('404');
+        }
 
-        $employee->name = $request['name'];
-        $employee->email = $request['email'];
-        $employee->password = Hash::make($request['password']);
-        //whats a role again ? 
-        $employee->role = '2';
+        $this->validator($request->all())->validate();
 
-        $employee->save();
+        $employee = Employer::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+            'role' => '2',
+        ]);
 
-        $wfEntry = new WorksFor();
 
-        $wfEntry->user_id = $employee->id;
-        $wfEntry->company_account_id = $employer->company()->id;
-        $wfEntry->save();
+        WorksFor::create([
+            'user_id' => $employee->id,
+            'company_account_id' => $employer->company()->id,
+        ]);
 
         //return some view.. for now the dashboard..
         return view('employer.dashboard');
 
 
+    }
+
+    public function userCanAddUser(Employer $user)
+    {
+        return $user->company()->company_manager_user_id == $user->id;
     }
 }
