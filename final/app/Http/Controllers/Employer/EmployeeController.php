@@ -47,6 +47,7 @@ class EmployeeController extends Controller
         Auth::guard('employer')->check();
 
         $employer = Auth::guard('employer')->user();
+
         if (!$this->userCanManageUsers($employer))
         {
             return abort('404');
@@ -69,8 +70,6 @@ class EmployeeController extends Controller
 
         //return some view.. for now the dashboard..
         return redirect('/employer/employees');
-
-
     }
 
     public function userCanManageUsers(Employer $user)
