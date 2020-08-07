@@ -14,20 +14,30 @@
                     <tr>
                         <th scope="col">User Name</th>
                         <th scope="col">User Email</th>
-                        <th scope="col">Status</th>
-                        <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($users as $user)
-                        <tr>
+                        @if($user->isAdmin())
+                        <tr class="table-danger">
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td></td>
-                            <td><a href="{{ url('/employer/job_posts/edit' ) }}">Modify</a></td>
-                            <td><a href="{{ url('/employer/job_posts/remove' ) }}">Remove</a></td>
                         </tr>
+                        @else
+                        <tr>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>
+                                <form action="{{ url('employer/employees/'. $user->id) }}" method="post">
+                                    <button type="submit" class="btn btn-link">Delete</button>
+                                    @method('delete')
+                                    @csrf
+                                </form>
+                            </td>
+                        </tr>
+                        @endif
                     @endforeach
                     </tbody>
                 </table>

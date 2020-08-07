@@ -44,11 +44,19 @@ Route::group(['prefix' => 'employer'], function () {
         Route::get('profile/edit', 'ProfileController@edit');
         Route::post('profile/edit', 'ProfileController@update');
 
-        Route::get('employees/create', 'EmployeeController@create');
-        Route::post('employees', 'EmployeeController@store');
         Route::get('employees', 'EmployeeController@index');
+        Route::post('employees', 'EmployeeController@store');
+        Route::get('employees/create', 'EmployeeController@create');
+        Route::delete('employees/{id}', 'EmployeeController@destroy');
 
         Route::get('payments', 'PaymentsController@index');
+        Route::get('payments/methods', 'PaymentMethodsController@index');
+        Route::get('payments/methods/{id}/edit', 'PaymentMethodsController@edit');
+        Route::put('payments/methods/{id}', 'PaymentMethodsController@update');
+        Route::delete('payments/methods/{id}', 'PaymentMethodsController@destroy');
+        Route::get('payments/preference', 'PaymentMethodsController@showPreference');
+        Route::put('payments/preference', 'PaymentMethodsController@updatePreference');
+
     });
 });
 

@@ -3,12 +3,13 @@
 @section('content')
     <div class="container">
         <nav class="nav pb-5">
-            <a class="nav-link" href="{{ url('/employer/employees/create') }}">Manage Payment Method</a>
-            <a class="nav-link" href="{{ url('/employer/employees/create') }}">Change Payment Preferences</a>
+            <a class="nav-link" href="{{ url('/employer/payments/methods') }}">Manage Payment Method</a>
+            <a class="nav-link" href="{{ url('/employer/payments/preference') }}">Change Payment Preferences</a>
             <a class="nav-link" href="{{ url('/employer') }}">Dashboard</a>
         </nav>
         <div class="row">
             <div class="col">
+                <h3>Payments History</h3>
                 @if (isset($payments) && $payments->count() > 0)
                     <table class="table">
                         <thead class="thead-light">
@@ -17,8 +18,6 @@
                             <th scope="col">Amount</th>
                             <th scope="col">Method</th>
                             <th scope="col">Card Number</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -28,7 +27,6 @@
                                 <td>{{ $payment->amount }}</td>
                                 <td>{{ $payment->method }}</td>
                                 <td>{{ $payment->card_number }}</td>
-                                <td><a href="{{ url('/employer/job_posts/remove' ) }}">Contest</a></td>
                             </tr>
                         @endforeach
                         </tbody>

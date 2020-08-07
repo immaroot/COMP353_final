@@ -22,8 +22,12 @@ class CompanyAccount extends Model
 
     public function payments()
     {
-        $payments = Payment::where('account_id', $this->id)->where('account_role', '2')->get();
-        return $payments;
+        return Payment::where('account_id', $this->id)->where('account_role', '2')->get();
+    }
+
+    public function payment_methods()
+    {
+        return PaymentMethod::where('account_id', $this->id)->where('account_role', '2')->get();
     }
 
     public function whoIsAdmin()

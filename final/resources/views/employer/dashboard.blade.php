@@ -17,8 +17,8 @@
             <a class="nav-link" href="{{ url('employer/job_posts') }}">Manage Job Offer</a>
             @if($isAdmin)
                 <a class="nav-link" href="{{ url('employer/employees') }}">Manage Users</a>
-                <a class="nav-link" href="#">Manage Account</a>
-                <a class="nav-link" href="#">Payments</a>
+                <a class="nav-link" href="{{ url('employer/account') }}">Manage Account</a>
+                <a class="nav-link" href="{{ url('employer/payments') }}">Payments</a>
             @endif
         </nav>
         <div class="row">
