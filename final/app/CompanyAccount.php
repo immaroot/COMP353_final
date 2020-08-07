@@ -22,7 +22,8 @@ class CompanyAccount extends Model
 
     public function payments()
     {
-        return $this->belongsToMany('App\Payment', 'account_id');
+        $payments = Payment::where('account_id', $this->id)->where('account_role', '2')->get();
+        return $payments;
     }
 
     public function whoIsAdmin()

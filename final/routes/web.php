@@ -47,6 +47,8 @@ Route::group(['prefix' => 'employer'], function () {
         Route::get('employees/create', 'EmployeeController@create');
         Route::post('employees', 'EmployeeController@store');
         Route::get('employees', 'EmployeeController@index');
+
+        Route::get('payments', 'PaymentsController@index');
     });
 });
 
