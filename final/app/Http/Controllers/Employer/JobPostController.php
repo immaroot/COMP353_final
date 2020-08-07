@@ -24,11 +24,14 @@ class JobPostController extends Controller
             'position' => 'required',
             'description' => 'required',
             'category' => 'required',
+            'salary' => 'required',
         ]);
 
         $job_post->position = $request['position'];
         $job_post->description = $request['description'];
         $job_post->job_category_id = $request['category'];
+        $job_post->salary = $request['salary'];
+        $job_post->status = 'available';
 
         $job_post->save();
 
@@ -69,6 +72,8 @@ class JobPostController extends Controller
             'position' => $job_post->position,
             'description' => $job_post->description,
             'category' => $job_post->job_category_id,
+            'salary' => $job_post->salary,
+            'status' => $job_post->status,
         ]);
     }
 
@@ -87,11 +92,16 @@ class JobPostController extends Controller
             'position' => 'required',
             'description' => 'required',
             'category' => 'required',
+            'salary' => 'required',
+            'status' => 'required',
         ]);
 
         $job_post->position = $request['position'];
         $job_post->description = $request['description'];
         $job_post->job_category_id = $request['category'];
+        $job_post->salary = $request['salary'];
+        $job_post->status = $request['status'];
+
         $job_post->save();
 
         return redirect('employer/job_posts/');
@@ -101,11 +111,13 @@ class JobPostController extends Controller
     {
         Auth::guard('employer')->check();
 
-        $company = CompanyAccount::find(Auth::guard('employer')->user()->company()->id);
+        $user = Auth::guard('employer')->user();
+        $company = CompanyAccount::find($user->company()->id);
 
         $job_posts = $company->job_posts;
+        $isAdmin = $user->isAdmin();
 
-        return view('employer.posts.index', compact('job_posts'));
+        return view('employer.posts.index', ['job_posts' => $job_posts, 'isAdmin' => $isAdmin]);
     }
 
     public function create()
@@ -127,6 +139,23 @@ class JobPostController extends Controller
         $job_post = JobPost::findOrFail($id);
 
         $job_post->destroy();
+
+        return $this->index();
+    }
+
+    public function remove($id)
+    {
+        Auth::guard('employer')->check();
+
+        $job_post = JobPost::findOrFail($id);
+        $user = Auth::guard('employer')->user();
+        if (!$this->userCanEdit($user, $job_post))
+        {
+            return abort('404');
+        }
+
+        $job_post->status = 'removed';
+        $job_post->save();
 
         return $this->index();
     }

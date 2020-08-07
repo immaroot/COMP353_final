@@ -23,6 +23,10 @@ class Employer extends User
     public function company()
     {
         return $this->belongsToMany('App\CompanyAccount', 'works_for','user_id','company_account_id')->first();
+    }
 
+    public function isAdmin()
+    {
+        return $this->company()->whoIsAdmin() == $this->id;
     }
 }

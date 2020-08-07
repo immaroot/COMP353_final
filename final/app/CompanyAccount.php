@@ -24,4 +24,9 @@ class CompanyAccount extends Model
     {
         return $this->belongsToMany('App\Payment', 'account_id');
     }
+
+    public function whoIsAdmin()
+    {
+        return $this->company_manager_user_id;
+    }
 }

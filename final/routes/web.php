@@ -29,7 +29,7 @@ Route::group(['prefix' => 'employer'], function () {
     //Authenticated Routes
     Route::group(['middleware' => 'auth:employer', 'namespace' => 'Employer'], function () {
 
-        Route::view('/', 'employer.dashboard');
+        Route::get('/', 'DashBoardController@show');
 
         Route::get('job_posts', 'JobPostController@index');
         Route::get('job_posts/create', 'JobPostController@create');
@@ -38,10 +38,15 @@ Route::group(['prefix' => 'employer'], function () {
         Route::get('job_posts/{job_id}/edit/', 'JobPostController@edit');
         Route::put('job_posts/{job_id}', 'JobPostController@update');
         Route::delete('job_posts/{job_id}', 'JobPostController@destroy');
+        Route::get('job_posts/{job_id}/remove', 'JobPostController@remove');
 
         Route::get('profile', 'ProfileController@show');
         Route::get('profile/edit', 'ProfileController@edit');
         Route::post('profile/edit', 'ProfileController@update');
+
+        Route::get('employees/create', 'EmployeeController@create');
+        Route::post('employees', 'EmployeeController@store');
+        Route::get('employees', 'EmployeeController@index');
     });
 });
 
