@@ -8,7 +8,7 @@ class JobSeeker extends User
 {
     protected $table = 'users';
 
-    protected $guard = 'employer';
+    protected $guard = 'job_seeker';
 
     public static function boot()
     {
@@ -17,5 +17,9 @@ class JobSeeker extends User
         static::addGlobalScope(function ($query) {
             $query->where('role', 1);
         });
+    }
+
+    public function applications(){
+        return $this->hasMany('App\JobApplication', 'job_seeker_id')->get();
     }
 }
