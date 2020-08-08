@@ -24,4 +24,9 @@ class JobPost extends Model
     {
         return $this->hasMany('App\JobApplication');
     }
+
+    public function category()
+    {
+        return $this->hasOne('App\JobCategory', 'id', 'job_category_id');
+    }
 }
