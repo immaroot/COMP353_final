@@ -40,10 +40,6 @@ Route::group(['prefix' => 'employer'], function () {
         Route::delete('job_posts/{job_id}', 'JobPostController@destroy');
         Route::get('job_posts/{job_id}/remove', 'JobPostController@remove');
 
-        Route::get('profile', 'ProfileController@show');
-        Route::get('profile/edit', 'ProfileController@edit');
-        Route::post('profile/edit', 'ProfileController@update');
-
         Route::get('employees', 'EmployeeController@index');
         Route::post('employees', 'EmployeeController@store');
         Route::get('employees/create', 'EmployeeController@create');
@@ -57,6 +53,11 @@ Route::group(['prefix' => 'employer'], function () {
         Route::get('payments/preference', 'PaymentMethodsController@showPreference');
         Route::put('payments/preference', 'PaymentMethodsController@updatePreference');
 
+        Route::get('account', 'ProfileController@index');
+        Route::get('account/profile/edit', 'ProfileController@edit');
+        Route::put('account/profile/edit', 'ProfileController@update');
+        Route::get('account/profile/edit_level', 'ProfileController@editMembership');
+        Route::put('account/profile/edit_level', 'ProfileController@updateMembership');
     });
 });
 
