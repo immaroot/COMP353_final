@@ -2,6 +2,9 @@
 
 @section('content')
     <div class="container">
+        <nav class="nav pb-5">
+            <a class="nav-link" href="{{  url()->previous()  }}">Back</a>
+        </nav>
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
@@ -47,6 +50,19 @@
                                     </select>
 
                                     @error('category')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="salary" class="col-md-4 col-form-label text-md-right">{{ __('Salary') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="salary" type="text" class="form-control @error('salary') is-invalid @enderror" name="salary" value="{{ old('salary') }}" required autocomplete="salary" autofocus>
+
+                                    @error('salary')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

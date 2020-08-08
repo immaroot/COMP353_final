@@ -2,6 +2,9 @@
 
 @section('content')
     <div class="container">
+        <nav class="nav pb-5">
+            <a class="nav-link" href="{{  url()->previous()  }}">Back</a>
+        </nav>
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
@@ -49,6 +52,35 @@
                                     </select>
 
                                     @error('category')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="salary" class="col-md-4 col-form-label text-md-right">{{ __('Category Of Job') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="salary" type="text" class="form-control @error('salary') is-invalid @enderror" name="salary" value="{{ $salary }}" required autocomplete="salary" autofocus>
+
+                                    @error('salary')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="status" class="col-md-4 col-form-label text-md-right">{{ __('Status Of Job') }}</label>
+
+                                <div class="col-md-6">
+                                    <select class="form-control" id="status" name="status">
+                                        <option value="0" @if($status == '0') selected @endif>Available</option>
+                                        <option value="1" @if($status == '1') selected @endif>Position Filled</option>
+                                    </select>
+
+                                    @error('status')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

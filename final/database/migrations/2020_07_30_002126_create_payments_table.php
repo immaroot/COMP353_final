@@ -15,11 +15,13 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->decimal('amount', 8, 2);
             $table->unsignedInteger('account_id');
-            $table->string('payment_method');
+            $table->integer('account_role');
+            $table->string('method');
             $table->string('card_number');
-            $table->string('transaction_number');
-            $table->unsignedDecimal('amount', 2);
+            $table->string('transaction_id');
+            $table->boolean('was_automatic');
             $table->timestamps();
         });
     }

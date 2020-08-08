@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employer;
 
 use App\CompanyAccount;
 use App\Employer;
+use App\JobPost;
 use App\WorksFor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,8 +25,29 @@ class EmployeeController extends Controller
         ]);
     }
 
+    public function index()
+    {
+        Auth::guard('employer')->check();
+
+        $employer = Auth::guard('employer')->user();
+
+        if (!$this->userCanManageUsers($employer))
+        {
+            return abort('404');
+        }
+        $users = $employer->company()->users()->get();
+        return view('employer.employees.index', ['users' => $users]);
+    }
+
     public function create(){
         Auth::guard('employer')->check();
+
+        $employer = Auth::guard('employer')->user();
+
+        if (!$this->userCanManageUsers($employer))
+        {
+            return abort('404');
+        }
 
         return view('employer.employees.create');
     }
@@ -34,7 +56,8 @@ class EmployeeController extends Controller
         Auth::guard('employer')->check();
 
         $employer = Auth::guard('employer')->user();
-        if (!$this->userCanAddUser($employer))
+
+        if (!$this->userCanManageUsers($employer))
         {
             return abort('404');
         }
@@ -54,14 +77,34 @@ class EmployeeController extends Controller
             'company_account_id' => $employer->company()->id,
         ]);
 
-        //return some view.. for now the dashboard..
-        return view('employer.dashboard');
-
-
+        return redirect('/employer/employees');
     }
 
-    public function userCanAddUser(Employer $user)
+    public function destroy($id)
+    {
+        Auth::guard('employer')->check();
+
+        $employer = Auth::guard('employer')->user();
+        $user = Employer::findOrFail($id);
+
+        if (!$this->userCanManageUsers($employer) || !$this->userBelongsToCompanyAccount($employer, $user))
+        {
+            return abort('404');
+        }
+
+        $user->delete();
+
+        return $this->index();
+    }
+
+    public function userCanManageUsers(Employer $user)
     {
         return $user->company()->company_manager_user_id == $user->id;
     }
+
+    public function userBelongsToCompanyAccount($employer, $user)
+    {
+        return $employer->company()->users()->get() ->contains($user);
+    }
+
 }

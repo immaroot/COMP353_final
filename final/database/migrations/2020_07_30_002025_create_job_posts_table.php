@@ -20,6 +20,8 @@ class CreateJobPostsTable extends Migration
             $table->string('position');
             $table->text('description');
             $table->unsignedInteger('job_category_id');
+            $table->string('salary');
+            $table->string('status');
             $table->timestamps();
         });
     }
