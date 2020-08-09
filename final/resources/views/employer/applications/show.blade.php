@@ -33,7 +33,7 @@
                     <dt class="col-sm-3">Email</dt>
                     <dd class="col-sm-9">{{ $application->job_seeker->email }}</dd>
                     <dt class="col-sm-3">Description</dt>
-                    <dd class="col-sm-9">{{ $application->job_seeker->description }}</dd>
+                    <dd class="col-sm-9">{{ $application->job_seeker->profile->description }}</dd>
                     <dt class="col-sm-3">Message</dt>
                     <dd class="col-sm-9">{{ $application->message }}</dd>
                     <dt class="col-sm-3">Date Created</dt>

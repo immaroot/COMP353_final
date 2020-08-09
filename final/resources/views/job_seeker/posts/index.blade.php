@@ -3,8 +3,7 @@
 @section('content')
     <div class="container">
         <nav class="nav pb-5">
-            <a class="nav-link" href="{{ url('/employer/job_posts/create') }}">Add New Job Offer</a>
-            <a class="nav-link" href="{{ url('/employer') }}">Dashboard</a>
+            <a class="nav-link" href="{{ url('/job_seeker') }}">Dashboard</a>
         </nav>
         <div class="row">
             <div class="col">

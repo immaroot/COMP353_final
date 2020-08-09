@@ -44,7 +44,7 @@
                             <tr>
                                 <td>{{ $application->job_seeker->name }}</td>
                                 <td>{{ $application->job_seeker->email }}</td>
-                                <td class="text-truncate">{{ $application->job_seeker->description }}</td>
+                                <td class="text-truncate">{{ $application->job_seeker->profile->description }}</td>
                                 <td class="text-truncate">{{ $application->message }}</td>
                                 <td>{{ $application->created_at }}</td>
                                 <td>{{ $application->application_status->name }}</td>

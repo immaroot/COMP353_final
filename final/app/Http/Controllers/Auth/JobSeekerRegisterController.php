@@ -28,6 +28,7 @@ class JobSeekerRegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'description' => 'required',
         ]);
     }
 
@@ -43,6 +44,7 @@ class JobSeekerRegisterController extends Controller
         $account = JobSeekerAccount::create([
             'level' => $request['level'],
             'job_seeker_id' => $job_seeker->id,
+            'description' => $request['description'],
         ]);
         Auth::guard('job_seeker')->login($job_seeker);
         return redirect()->intended('job_seeker');
