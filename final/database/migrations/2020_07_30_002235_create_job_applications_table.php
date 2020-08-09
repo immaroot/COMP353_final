@@ -17,6 +17,7 @@ class CreateJobApplicationsTable extends Migration
             $table->id();
             $table->unsignedInteger('job_seeker_id');
             $table->unsignedInteger('job_post_id');
+            $table->text('message');
             $table->integer('status');
             $table->timestamps();
         });

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index');
+Route::view('/test', 'employer.applications.summary');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 //All Employer Routes
@@ -53,11 +54,15 @@ Route::group(['prefix' => 'employer'], function () {
         Route::get('payments/preference', 'PaymentMethodsController@showPreference');
         Route::put('payments/preference', 'PaymentMethodsController@updatePreference');
 
-        Route::get('account', 'ProfileController@index');
-        Route::get('account/profile/edit', 'ProfileController@edit');
-        Route::put('account/profile/edit', 'ProfileController@update');
-        Route::get('account/profile/edit_level', 'ProfileController@editMembership');
-        Route::put('account/profile/edit_level', 'ProfileController@updateMembership');
+        Route::get('account', 'CompanyAccountController@index');
+        Route::get('account/profile/edit', 'CompanyAccountController@edit');
+        Route::put('account/profile/edit', 'CompanyAccountController@update');
+        Route::get('account/profile/edit_level', 'CompanyAccountController@editMembership');
+        Route::put('account/profile/edit_level', 'CompanyAccountController@updateMembership');
+
+        Route::get('applications/{post_id}', 'ApplicationsController@index');
+
+        Route::get('view_profile/{id}', 'JobSeekerProfileController@show');
     });
 });
 
