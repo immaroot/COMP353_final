@@ -25,9 +25,38 @@ class CompanyAccount extends Model
         return Payment::where('account_id', $this->id)->where('account_role', '2')->get();
     }
 
+    public function invoices()
+    {
+        return Payment::where('account_id', $this->id)->where('account_role', '2')->get();
+    }
+
+    public function current_invoice()
+    {
+        return Payment::where('account_id', $this->id)->where('account_role', '2')->get();
+    }
+
     public function payment_methods()
     {
         return PaymentMethod::where('account_id', $this->id)->where('account_role', '2')->get();
+    }
+
+    public function canPostJob()
+    {
+        if ($this->level == 1 && $this->currentJobListingsCount() < 5)
+        {
+            return true;
+        }
+        elseif ($this->level == 2)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function currentJobListingsCount()
+    {
+        return $this->job_posts()->where('status', '0')->count();
     }
 
     public function whoIsAdmin()

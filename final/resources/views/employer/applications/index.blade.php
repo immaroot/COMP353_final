@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <nav class="nav pb-5">
-            <a class="nav-link" href="{{ url()->previous() }}">Back</a>
+            <a class="nav-link" href="{{ url('employer/applications') }}">Back</a>
         </nav>
         <div class="row">
             <div class="col align-content-center">
@@ -44,11 +44,11 @@
                             <tr>
                                 <td>{{ $application->job_seeker->name }}</td>
                                 <td>{{ $application->job_seeker->email }}</td>
-                                <td class="text-truncate">{{ $application->job_seeker->description }}</td>
+                                <td class="text-truncate">{{ $application->job_seeker->profile->description }}</td>
                                 <td class="text-truncate">{{ $application->message }}</td>
                                 <td>{{ $application->created_at }}</td>
-                                <td>{{ $application->status }}</td>
-                                <td><a href="{{ url('/employer/applications/' . $application->id . '/edit' ) }}">View</a></td>
+                                <td>{{ $application->application_status->name }}</td>
+                                <td><a href="{{ url('/employer/applications/' . $job_post->id . '/' . $application->id ) }}">View</a></td>
                             </tr>
                         @endforeach
                         </tbody>

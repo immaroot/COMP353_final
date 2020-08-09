@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employer;
 
 use App\CompanyAccount;
 use App\Employer;
+use App\JobCategory;
 use App\JobPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,12 @@ class JobPostController extends Controller
         Auth::guard('employer')->check();
 
         $employer = Employer::findOrfail(Auth::guard('employer')->user()->id);
+
+        if (!$employer->company()->canPostJob())
+        {
+            return redirect('employer/account/upgrade');
+        }
+
         $job_post = new JobPost();
         $job_post->company_account_id = $employer->company()->id;
         $job_post->employer_id = $employer->id;
@@ -31,7 +38,7 @@ class JobPostController extends Controller
         $job_post->description = $request['description'];
         $job_post->job_category_id = $request['category'];
         $job_post->salary = $request['salary'];
-        $job_post->status = 'available';
+        $job_post->status = 0;
 
         $job_post->save();
 
@@ -118,8 +125,16 @@ class JobPostController extends Controller
     public function create()
     {
         Auth::guard('employer')->check();
+        $employer = Employer::findOrfail(Auth::guard('employer')->user()->id);
 
-        return view('employer.posts.create');
+        if (!$employer->company()->canPostJob())
+        {
+            return redirect('employer/account/upgrade');
+        }
+
+        $categories = JobCategory::all();
+
+        return view('employer.posts.create', ['categories' => $categories]);
     }
 
     public function destroy($id)
@@ -149,7 +164,7 @@ class JobPostController extends Controller
             return abort('404');
         }
 
-        $job_post->status = 'removed';
+        $job_post->status = 2;
         $job_post->save();
 
         return $this->index();

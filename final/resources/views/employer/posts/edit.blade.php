@@ -78,6 +78,7 @@
                                     <select class="form-control" id="status" name="status">
                                         <option value="0" @if($status == '0') selected @endif>Available</option>
                                         <option value="1" @if($status == '1') selected @endif>Position Filled</option>
+                                        <option value="2" @if($status == '2') selected @endif>Removed</option>
                                     </select>
 
                                     @error('status')

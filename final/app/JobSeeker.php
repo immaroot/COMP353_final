@@ -22,4 +22,13 @@ class JobSeeker extends User
     public function applications(){
         return $this->hasMany('App\JobApplication', 'job_seeker_id')->get();
     }
+    public function profile()
+    {
+        return $this->hasOne('App\JobSeekerAccount', 'job_seeker_id', 'id');
+    }
+
+    public function description()
+    {
+        return $this->profile->description;
+    }
 }

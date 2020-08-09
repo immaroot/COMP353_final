@@ -54,12 +54,11 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="website" class="col-md-4 col-form-label text-md-right">{{ __('Your Website') }}</label>
+                            <label for="description" class="col-md-4 col-form-label text-md-right">{{ __('Your Description') }}</label>
 
                             <div class="col-md-6">
-                                <input id="website" type="text" class="form-control @error('website') is-invalid @enderror" name="website" value="{{ old('website') }}" required autocomplete="website">
-
-                                @error('website')
+                                <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description" required></textarea>
+                                @error('description')
                                 <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>

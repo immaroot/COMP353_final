@@ -42,11 +42,11 @@
                             </div>
                             <div class="form-group row">
                                 <label for="category" class="col-md-4 col-form-label text-md-right">{{ __('Category Of Job') }}</label>
-
                                 <div class="col-md-6">
                                     <select class="form-control" id="category" name="category">
-                                        <option value="1">Finance</option>
-                                        <option value="2">Restaurant</option>
+                                        @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
                                     </select>
 
                                     @error('category')

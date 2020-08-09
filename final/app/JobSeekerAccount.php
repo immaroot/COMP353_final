@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class JobSeekerAccount extends Model
 {
-    protected $fillable = ['level', 'job_seeker_id'];
+    protected $fillable = ['level', 'job_seeker_id', 'description'];
 
     public function user()
     {
