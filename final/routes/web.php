@@ -29,7 +29,7 @@ Route::group(['prefix' => 'employer'], function () {
     //Authenticated Routes
     Route::group(['middleware' => 'auth:employer', 'namespace' => 'Employer'], function () {
 
-        Route::get('/', 'DashBoardController@show');
+        Route::get('/', 'DashboardController@show');
 
         Route::get('job_posts', 'JobPostController@index');
         Route::get('job_posts/create', 'JobPostController@create');
@@ -73,7 +73,7 @@ Route::group(['prefix' => 'job_seeker'], function () {
     //Authenticated Routes
     Route::group(['middleware' => 'auth:job_seeker', 'namespace' => 'JobSeeker'], function () {
 
-        Route::view('/', 'job_seeker.dashboard');
+        Route::get('/', 'DashboardController@show');
 
     });
 });
