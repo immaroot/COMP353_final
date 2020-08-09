@@ -137,6 +137,11 @@ class CompanyAccountController extends Controller
 
     }
 
+    public function upgrade()
+    {
+        return view('employer.account.upgrade');
+    }
+
     public function userCanManageProfile(Employer $user)
     {
         return $user->company()->company_manager_user_id == $user->id;

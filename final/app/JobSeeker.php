@@ -18,4 +18,14 @@ class JobSeeker extends User
             $query->where('role', 1);
         });
     }
+
+    public function profile()
+    {
+        return $this->hasOne('App\JobSeekerAccount', 'job_seeker_id', 'id');
+    }
+
+    public function description()
+    {
+        return $this->profile->description;
+    }
 }

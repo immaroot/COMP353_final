@@ -10,6 +10,23 @@ use App\Http\Controllers\Controller;
 
 class ApplicationsController extends Controller
 {
+    public function summary()
+    {
+        Auth::guard('employer')->check();
+
+        $employer = Auth::guard('employer')->user();
+        $company = $employer->company();
+
+        $job_posts = $company->job_posts;
+        foreach ($job_posts as $job_post)
+        {
+            $applicants = $job_post->applications->count();
+            $job_post->applicants_count = $applicants;
+        }
+
+        return view('employer.applications.summary', ['job_posts' => $job_posts]);
+    }
+
     public function index($post_id)
     {
         Auth::guard('employer')->check();
@@ -29,30 +46,64 @@ class ApplicationsController extends Controller
         return view('employer.applications.index', ['applications' => $applications, 'job_post' => $job_post]);
     }
 
-    public function show($id)
+    public function show($post_id, $application_id)
     {
         Auth::guard('employer')->check();
 
         $employer = Auth::guard('employer')->user();
         $company = $employer->company();
-        $application = JobApplication::find($id);
+        $job_post = JobPost::findOrFail($post_id);
+        $application = JobApplication::findOrFail($application_id);
+
+        if (!$this->jobPostBelongsToCompanyAccount($job_post, $company))
+        {
+            return abort('404');
+        }
 
         if (!$this->applicationBelongsToCompanyAccount($application, $company))
         {
             return abort('404');
         }
 
-        return view('employer.applications.show', [
-            'name' => 'joe', //$job_seeker->name,
-            'email' => 'email@email.com', //$job_seeker->email,
-            'phone' => '5555-555', //$job_seeker->phone,
-            'description' => 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
-        ]);
+        return view('employer.applications.show', ['application' => $application, 'job_post' => $job_post]);
     }
 
-    public function userCanSeeApplication(Employer $user)
+
+    public function update($post_id, $application_id, Request $request)
     {
-        return $user->company()->company_manager_user_id == $user->id;
+        Auth::guard('employer')->check();
+
+        $employer = Auth::guard('employer')->user();
+        $company = $employer->company();
+        $job_post = JobPost::findOrFail($post_id);
+        $application = JobApplication::findOrFail($application_id);
+
+        if (!$this->jobPostBelongsToCompanyAccount($job_post, $company))
+        {
+            return abort('404');
+        }
+
+        if (!$this->applicationBelongsToCompanyAccount($application, $company))
+        {
+            return abort('404');
+        }
+
+        $request->validate([
+            'application_status' => 'required',
+        ]);
+
+        if ($request['application_status'] == 'being reviewed')
+            $application->status = 0;
+
+        if ($request['application_status'] == 'accepted')
+            $application->status = 1;
+
+        if ($request['application_status'] == 'denied')
+            $application->status = 2;
+
+        $application->save();
+
+        return redirect('employer/applications/' . $job_post->id);
     }
 
     public function applicationBelongsToCompanyAccount($application, $company)

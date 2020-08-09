@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index');
-Route::view('/test', 'employer.applications.summary');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 //All Employer Routes
@@ -55,12 +54,16 @@ Route::group(['prefix' => 'employer'], function () {
         Route::put('payments/preference', 'PaymentMethodsController@updatePreference');
 
         Route::get('account', 'CompanyAccountController@index');
+        Route::get('account/upgrade', 'CompanyAccountController@upgrade');
         Route::get('account/profile/edit', 'CompanyAccountController@edit');
         Route::put('account/profile/edit', 'CompanyAccountController@update');
         Route::get('account/profile/edit_level', 'CompanyAccountController@editMembership');
         Route::put('account/profile/edit_level', 'CompanyAccountController@updateMembership');
 
+        Route::get('applications', 'ApplicationsController@summary');
         Route::get('applications/{post_id}', 'ApplicationsController@index');
+        Route::get('applications/{post_id}/{application_id}', 'ApplicationsController@show');
+        Route::put('applications/{post_id}/{application_id}', 'ApplicationsController@update');
 
         Route::get('view_profile/{id}', 'JobSeekerProfileController@show');
     });
@@ -78,7 +81,13 @@ Route::group(['prefix' => 'job_seeker'], function () {
     //Authenticated Routes
     Route::group(['middleware' => 'auth:job_seeker', 'namespace' => 'JobSeeker'], function () {
 
-        Route::view('/', 'job_seeker.dashboard');
+        Route::get('/', function() {
+            return redirect('job_seeker/job_posts');
+        });
+
+        Route::get('job_posts', 'JobPostController@index');
+        Route::get('job_posts/{post_id}', 'JobPostController@show');
+        Route::post('job_posts/{post_id}', 'JobPostController@apply');
 
     });
 });

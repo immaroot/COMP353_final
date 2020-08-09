@@ -29,4 +29,9 @@ class JobPost extends Model
     {
         return $this->hasOne('App\JobCategory', 'id', 'job_category_id');
     }
+
+    public function job_status()
+    {
+        return $this->hasOne('App\JobStatus', 'id', 'status');
+    }
 }

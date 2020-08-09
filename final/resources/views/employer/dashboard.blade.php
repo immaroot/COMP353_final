@@ -15,6 +15,7 @@
         </div>
         <nav class="nav pb-5">
             <a class="nav-link" href="{{ url('employer/job_posts') }}">Manage Job Offer</a>
+            <a class="nav-link" href="{{ url('employer/applications') }}">Manage Applications</a>
             @if($isAdmin)
                 <a class="nav-link" href="{{ url('employer/employees') }}">Manage Users</a>
                 <a class="nav-link" href="{{ url('employer/account') }}">Manage Account</a>
@@ -41,12 +42,12 @@
                     <tbody>
                     @foreach($job_posts as $job_post)
                     <tr>
-                        <td>{{ $job_post->job_category_id }}</td>
+                        <td>{{ $job_post->category->name }}</td>
                         <td>{{ $job_post->position }}</td>
                         <td>{{ $job_post->description }}</td>
                         <td>{{ $job_post->salary }}</td>
                         <td>{{ $job_post->created_at }}</td>
-                        <td>{{ $job_post->status }}</td>
+                        <td>{{ $job_post->job_status->name }}</td>
                         <td><a href="{{ url('/employer/job_posts/' . $job_post->id . '/edit' ) }}">Modify</a></td>
                         <td><a href="{{ url('/employer/job_posts/' . $job_post->id . '/remove' ) }}">Remove</a></td>
                     </tr>

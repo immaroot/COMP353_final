@@ -15,4 +15,9 @@ class JobApplication extends Model
     {
         return $this->belongsTo('App\JobPost');
     }
+
+    public function application_status()
+    {
+        return $this->hasOne('App\ApplicationStatus', 'id', 'status');
+    }
 }

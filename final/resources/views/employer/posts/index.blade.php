@@ -26,12 +26,12 @@
                         <tbody>
                         @foreach($job_posts as $job_post)
                             <tr>
-                                <td>{{ $job_post->job_category_id }}</td>
+                                <td>{{ $job_post->category->name }}</td>
                                 <td>{{ $job_post->position }}</td>
                                 <td>{{ $job_post->description }}</td>
                                 <td>{{ $job_post->salary }}</td>
                                 <td>{{ $job_post->created_at }}</td>
-                                <td>{{ $job_post->status }}</td>
+                                <td>{{ $job_post->job_status->name }}</td>
                                 <td><a href="{{ url('/employer/job_posts/' . $job_post->id . '/edit' ) }}">Modify</a></td>
                                 <td><a href="{{ url('/employer/job_posts/' . $job_post->id . '/remove' ) }}">Remove</a></td>
                             </tr>
