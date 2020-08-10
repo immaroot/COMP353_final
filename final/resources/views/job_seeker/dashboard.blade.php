@@ -38,7 +38,7 @@
                     @elseif ($applications[$i] -> status == 2)
                     <td><a class = "btn btn-secondary" href="{{url('job_seeker/application/'.$applications[$i]->id.'/delete')}}">You've been denied.. click to remove</a></td>
                     @else
-                    <td><a class="btn btn-secondary" href="{{url('job_seeker/application/'.$details[$i]->id)}}">Modify Application</a></td>
+                    <td><a class="btn btn-secondary" href="{{url('job_seeker/application/'.$applications[$i]->id)}}">Modify Application</a></td>
                     @endif
                 </tr>
                 @endfor
