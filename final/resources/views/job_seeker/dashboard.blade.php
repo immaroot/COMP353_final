@@ -7,11 +7,15 @@
                 <div class ="row">
                     <div class = "col text-center">
                         <h1 class="text-center"> Welcome Job Seeker!</h1>
-                        <a class="btn btn-primary" href=""> Search for Jobs!</a>
+                        <a class="btn btn-primary" href="job_seeker/job_posts"> Search for Jobs!</a>
                     </div>
                 </div>
             </div>
     </div>
+    <nav class="nav pb-5">
+        <a class="nav-link" href="{{ url('job_seeker/account') }}">Manage Account</a>
+        <a class="nav-link" href="{{ url('job_seeker/payments') }}">Payments</a>
+    </nav>
     <div class="row">
         <div class="col">
             <h3>Current Job Applications</h3>
@@ -32,8 +36,14 @@
                     <td>{{ $details[$i] -> position}}
                     <td>{{ $details[$i] -> created_at}}</td>
                     <td>{{ $applications[$i] -> created_at}}</td>
-                    <td><a class="btn btn-primary" href="">View Job Post</a></td>
-                    <td><a class="btn btn-secondary" href="{{url('job_seeker/application/'.$details[$i]->id)}}">Modify Application</a></td>
+                    <td><a class="btn btn-primary" href="{{url('job_seeker/job_posts/'.$applications[$i]->job_post_id.'/disp')}}">View Job Post</a></td>
+                    @if ($applications[$i] -> status == 1)
+                    <td><h2>You've been hired!</h2></td>
+                    @elseif ($applications[$i] -> status == 2)
+                    <td><a class = "btn btn-secondary" href="{{url('job_seeker/application/'.$applications[$i]->id.'/delete')}}">You've been denied.. click to remove</a></td>
+                    @else
+                    <td><a class="btn btn-secondary" href="{{url('job_seeker/application/'.$applications[$i]->id)}}">Modify Application</a></td>
+                    @endif
                 </tr>
                 @endfor
                 </tbody>

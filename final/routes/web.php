@@ -101,7 +101,15 @@ Route::group(['prefix' => 'job_seeker'], function () {
         Route::get('job_posts', 'JobPostController@index');
         Route::post('job_posts/{post_id}', 'JobPostController@apply');
         Route::get('job_posts/{post_id}', 'JobPostController@show');
+        Route::get('job_posts/{post_id}/disp', 'JobPostController@disp');
 
+        Route::get('account', 'ProfileController@show');
+
+        Route::get('account/edit', 'ProfileController@edit');
+        Route::put('account/edit', 'ProfileController@update');
+
+        Route::get('account/edit_level', 'ProfileController@edit_level');
+        Route::put('account/edit_level', 'ProfileController@save_level');
 
 
 
