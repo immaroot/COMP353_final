@@ -39,11 +39,11 @@ class JobPostController extends Controller
 
         $job_seeker = JobSeeker::findOrfail(Auth::guard('job_seeker')->user()->id);
 
-        if (!$job_seeker->profile()->canApplyJob())
+        if (!$job_seeker->profile->canApplyJob())
         {
-            return redirect('employer/account/upgrade');
+            return redirect('job_seeker/account/upgrade');
         }
-        
+
         $application = new JobApplication();
         $application->job_seeker_id = $job_seeker->id;
         $application->job_post_id = $job_post->id;

@@ -29,15 +29,15 @@ class CheckInvoiceDue
             if ($employer->company()->current_invoice()->diff_days() > 30)
             {
                 $invoice = new Invoices();
-                if ($employer->company()->level = 1){
+                if ($employer->company()->level == 1){
                     $amount = 50.00;
-                }elseif ($employer->company()->level = 2)
+                }elseif ($employer->company()->level == 2)
                 {
                     $amount = 100.00;
                 }
                 $invoice->amount = $amount;
                 $invoice->account_id = $employer->company()->id;
-                $invoice->accout_role = 2;
+                $invoice->account_role = 2;
                 $invoice->save();
             }
 
@@ -74,9 +74,9 @@ class CheckInvoiceDue
                 if ($job_seeker->profile()->level != 0)
                 {
                     $invoice = new Invoices();
-                    if ($job_seeker->profile()->level = 1){
+                    if ($job_seeker->profile()->level == 1){
                         $amount = 10.00;
-                    }elseif ($job_seeker->profile()->level = 2)
+                    }elseif ($job_seeker->profile()->level == 2)
                     {
                         $amount = 20.00;
                     }else{
@@ -87,7 +87,7 @@ class CheckInvoiceDue
                     $invoice->accout_role = 2;
                     $invoice->save();
                 }
-                
+
             }
 
             if ($job_seeker->profile()->auto_payment() != null)
