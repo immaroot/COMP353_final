@@ -65,7 +65,7 @@ Route::group(['prefix' => 'employer'], function () {
         Route::get('applications/{post_id}/{application_id}', 'ApplicationsController@show');
         Route::put('applications/{post_id}/{application_id}', 'ApplicationsController@update');
 
-        Route::get('view_profile/{id}', 'JobSeekerProfileController@show');
+        Route::get('view_profile/{job_id}', 'JobSeekerProfileController@show');
     });
 });
 
@@ -83,6 +83,10 @@ Route::group(['prefix' => 'job_seeker'], function () {
 
 
         Route::get('/', 'DashboardController@show');
+
+
+        Route::get('jobPostings', 'JobPostingsController@index');
+        Route::get('apply/{id}', 'ApplyJobController@create');
 
         //Route::get('/', function() {
         //    return redirect('job_seeker/job_posts');
