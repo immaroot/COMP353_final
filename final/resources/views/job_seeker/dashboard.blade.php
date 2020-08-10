@@ -13,7 +13,6 @@
             </div>
     </div>
     <nav class="nav pb-5">
-        <a class="nav-link" href="{{ url('job_seeker/applications') }}">Manage Applications</a>
         <a class="nav-link" href="{{ url('job_seeker/account') }}">Manage Account</a>
         <a class="nav-link" href="{{ url('job_seeker/payments') }}">Payments</a>
 
