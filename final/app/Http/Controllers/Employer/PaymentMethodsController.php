@@ -153,7 +153,7 @@ class PaymentMethodsController extends Controller
             'preference' => 'required',
         ]);
 
-        $payment_methods = PaymentMethod::all();
+        $payment_methods = $employer->company()->payment_methods();
         $preferred_method = PaymentMethod::findOrFail($request['preference']);
 
         if (!$this->userCanManagePayments($employer) || !$this->paymentMethodBelongsToCompanyAccount($employer, $preferred_method))

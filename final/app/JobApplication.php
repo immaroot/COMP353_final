@@ -8,7 +8,7 @@ class JobApplication extends Model
 {
     public function job_seeker()
     {
-        return $this->belongsTo('App\JobSeeker');
+        return $this->hasOne('App\JobSeeker', 'id', 'job_seeker_id');
     }
 
     public function job_post()

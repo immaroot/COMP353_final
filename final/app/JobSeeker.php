@@ -28,4 +28,9 @@ class JobSeeker extends User
     {
         return $this->profile->description;
     }
+
+    public function applications()
+    {
+        return $this->hasMany('App\JobApplication', 'job_seeker_id', 'id');
+    }
 }
