@@ -41,7 +41,7 @@ class CheckInvoiceDue
                 $invoice->save();
             }
 
-            if ($employer->company()->auto_payment() != null)
+            if ($employer->company()->auto_payment() != null && $employer->company()->current_invoice() != null)
             {
                 $invoice = $employer->company()->current_invoice();
                 $payment_method = $employer->company()->auto_payment();
@@ -90,7 +90,7 @@ class CheckInvoiceDue
 
             }
 
-            if ($job_seeker->profile->auto_payment() != null)
+            if ($job_seeker->profile->auto_payment() != null && $job_seeker->profile->current_invoice() != null)
             {
                 $invoice = $job_seeker->profile->current_invoice();
                 $payment_method = $job_seeker->profile->auto_payment();
