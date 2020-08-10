@@ -38,7 +38,7 @@
                     <td>{{ $application->job_post->position }}
                     <td>{{ $application->job_post->created_at }}</td>
                     <td>{{ $application->created_at }}</td>
-                    <td><a class="btn btn-primary" href="{{url('job_seeker/job_posts/'. $application->job_post->id .'/disp')}}">View Job Post</a></td>
+                    <td><a class="btn btn-primary" href="{{url('job_seeker/application/'. $application->id )}}">View Application</a></td>
                     <td>{{ $application->application_status->name }}</td>
                 </tr>
                 @endforeach
