@@ -17,7 +17,7 @@ class ApplyJobController extends Controller
     {
         Auth::guard('job_seeker')->check();
 
-        $user = Auth::guard('job_seeker')->user
+        $user = Auth::guard('job_seeker')->user;
 
         $jobPostings = DB::table('job_posts')
         ->where('id', $postID)
