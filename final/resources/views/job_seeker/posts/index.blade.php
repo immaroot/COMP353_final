@@ -21,7 +21,7 @@
                         <label class="px-2 form-check-label" for="jobPostionRadio">Job Position</label>
 
                         <input class="form-check-input" type="radio" name="searchRadio" id="salaryRadio" value="Search">
-                        <label class="px-2 form-check-label" for="salaryRadio">Salary</label>
+                        <label class="px-2 form-check-label" for="salaryRadio">Minimum Salary</label>
                     </div>
                 </div>
 
@@ -109,14 +109,26 @@
             }
             
             if (td) {
+            
               txtValue = td.textContent || td.innerText;
+              if (salRadio.checked){
+                if (txtValue >= filter){
+                    tr[i].style.display = "";
+                }
+                else
+                {
+                    tr[i].style.display = "none";
+                }
+                break;
+              }
+
               if (txtValue.toUpperCase().indexOf(filter) > -1) {
                 tr[i].style.display = "";
               } else {
                 tr[i].style.display = "none";
               }
-            }       
             }
+          }
         }
     </script>
 @endsection
