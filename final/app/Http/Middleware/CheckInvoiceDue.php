@@ -26,7 +26,7 @@ class CheckInvoiceDue
         {
             $employer = Employer::find(Auth::guard('employer')->user()->id);
 
-            if ($employer->company()->current_invoice()->diff_days() > 30)
+            if ($employer->company()->current_invoice() != null && $employer->company()->current_invoice()->diff_days() > 30)
             {
                 $invoice = new Invoices();
                 if ($employer->company()->level == 1){
@@ -59,7 +59,7 @@ class CheckInvoiceDue
                 $invoice->save();
             }
 
-            if (!$employer->company()->current_invoice()->is_paid())
+            if ($employer->company()->current_invoice() != null && !$employer->company()->current_invoice()->is_paid())
             {
                 return redirect('employer/payments/make');
             }else{
@@ -69,7 +69,7 @@ class CheckInvoiceDue
         {
             $job_seeker = JobSeeker::find(Auth::guard('job_seeker')->user()->id);
 
-            if ($job_seeker->profile->current_invoice()->diff_days() > 30)
+            if ($job_seeker->profile->current_invoice() != null && $job_seeker->profile->current_invoice()->diff_days() > 30)
             {
                 if ($job_seeker->profile->level != 0)
                 {
@@ -107,7 +107,7 @@ class CheckInvoiceDue
                 $invoice->payment_id = $payment->id;
                 $invoice->save();
             }
-            if (!$job_seeker->profile->current_invoice()->is_paid())
+            if ($job_seeker->profile->current_invoice() != null && !$job_seeker->profile->current_invoice()->is_paid())
             {
                 return redirect('job_seeker/payments/make');
             }else{
