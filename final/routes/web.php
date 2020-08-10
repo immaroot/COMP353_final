@@ -85,8 +85,14 @@ Route::group(['prefix' => 'job_seeker'], function () {
         Route::get('/', 'DashboardController@show');
 
 
+
         Route::get('jobPostings', 'JobPostingsController@index');
         Route::get('apply/{id}', 'ApplyJobController@create');
+
+
+        Route::get('application/{id}', 'JobApplicationController@show');
+        Route::put('application/{id}', 'JobApplicationController@edit');
+        Route::get('application/{id}/delete', 'JobApplicationController@delete');
 
         //Route::get('/', function() {
         //    return redirect('job_seeker/job_posts');
@@ -94,6 +100,9 @@ Route::group(['prefix' => 'job_seeker'], function () {
 
         Route::get('job_posts', 'JobPostController@index');
         Route::get('job_posts/{post_id}', 'JobPostController@show');
+        
+
+        
 
     });
 });
