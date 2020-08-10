@@ -86,7 +86,7 @@ Route::group(['prefix' => 'job_seeker'], function () {
     Route::post('register', 'Auth\JobSeekerRegisterController@createJobSeeker');
 
     //Authenticated Routes
-    Route::group(['middleware' => ['auth:job_seeker', 'check_invoice'], 'namespace' => 'JobSeeker'], function () {
+    Route::group(['middleware' => 'auth:job_seeker', 'namespace' => 'JobSeeker'], function () {
 
         Route::get('/', function() {
             return redirect('job_seeker/job_posts');
@@ -117,8 +117,6 @@ Route::group(['prefix' => 'admin'], function () {
 //Route::group(['middleware' => 'check_invoice'], function () {
 //    Route::get('payment_needed', 'SuspendedController@index');
 //});
-
-Route::get('payment_needed','SuspendedController@show');
 
 
 

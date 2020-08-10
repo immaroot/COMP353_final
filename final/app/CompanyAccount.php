@@ -25,6 +25,11 @@ class CompanyAccount extends Model
         return Payment::where('account_id', $this->id)->where('account_role', '2')->get();
     }
 
+    public function auto_payment()
+    {
+        return PaymentMethod::where('account_id', $this->id)->where('account_role', '2')->where('is_automatic', 1)->first();
+    }
+
     public function invoices()
     {
         return Invoices::where('account_id', $this->id)->where('account_role', '2')->get();
