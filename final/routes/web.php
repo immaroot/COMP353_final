@@ -29,7 +29,7 @@ Route::group(['prefix' => 'employer'], function () {
     //Authenticated Routes
     Route::group(['middleware' => 'auth:employer', 'namespace' => 'Employer'], function () {
 
-        Route::get('/', 'DashBoardController@show');
+        Route::get('/', 'DashboardController@show');
 
         Route::get('job_posts', 'JobPostController@index');
         Route::get('job_posts/create', 'JobPostController@create');
@@ -47,6 +47,8 @@ Route::group(['prefix' => 'employer'], function () {
 
         Route::get('payments', 'PaymentsController@index');
         Route::get('payments/methods', 'PaymentMethodsController@index');
+        Route::get('payments/methods/add', 'PaymentMethodsController@create');
+        Route::post('payments/methods', 'PaymentMethodsController@store');
         Route::get('payments/methods/{id}/edit', 'PaymentMethodsController@edit');
         Route::put('payments/methods/{id}', 'PaymentMethodsController@update');
         Route::delete('payments/methods/{id}', 'PaymentMethodsController@destroy');
