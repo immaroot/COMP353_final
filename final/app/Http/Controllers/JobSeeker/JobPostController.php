@@ -19,6 +19,18 @@ class JobPostController extends Controller
         return view('job_seeker.posts.index', ['job_posts' => $job_posts]);
     }
 
+    public function disp($post_id)
+    {
+
+        $job_post = JobPost::findOrFail($post_id);
+
+        Auth::guard('job_seeker')->check();
+
+        $job_seeker = JobSeeker::findOrfail(Auth::guard('job_seeker')->user()->id);
+
+        return view('job_seeker.posts.show', ['job_post' => $job_post, 'job_seeker' => $job_seeker]);
+    }
+
     public function show($post_id)
     {
 

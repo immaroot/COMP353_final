@@ -8,7 +8,7 @@ class JobSeeker extends User
 {
     protected $table = 'users';
 
-    protected $guard = 'employer';
+    protected $guard = 'job_seeker';
 
     public static function boot()
     {
@@ -19,6 +19,9 @@ class JobSeeker extends User
         });
     }
 
+    public function applications(){
+        return $this->hasMany('App\JobApplication', 'job_seeker_id')->get();
+    }
     public function profile()
     {
         return $this->hasOne('App\JobSeekerAccount', 'job_seeker_id', 'id');

@@ -29,6 +29,7 @@ Route::group(['prefix' => 'employer'], function () {
     //Authenticated Routes
     Route::group(['middleware' => 'auth:employer', 'namespace' => 'Employer'], function () {
 
+
         Route::get('payments', 'PaymentsController@index');
         Route::get('payments/make', 'PaymentsController@makePayment');
         Route::post('payments/make', 'PaymentsController@processPayment');
@@ -40,7 +41,6 @@ Route::group(['prefix' => 'employer'], function () {
         Route::delete('payments/methods/{id}', 'PaymentMethodsController@destroy');
         Route::get('payments/preference', 'PaymentMethodsController@showPreference');
         Route::put('payments/preference', 'PaymentMethodsController@updatePreference');
-
 
         Route::group(['middleware' => 'check_invoice'], function () {
             Route::get('/', 'DashboardController@show');
@@ -88,13 +88,37 @@ Route::group(['prefix' => 'job_seeker'], function () {
     //Authenticated Routes
     Route::group(['middleware' => 'auth:job_seeker', 'namespace' => 'JobSeeker'], function () {
 
-        Route::get('/', function() {
-            return redirect('job_seeker/job_posts');
-        });
+
+        Route::get('/', 'DashboardController@show');
+
+
+
+        Route::get('jobPostings', 'JobPostingsController@index');
+        Route::get('apply/{id}', 'ApplyJobController@create');
+
+
+        Route::get('application/{id}', 'JobApplicationController@show');
+        Route::put('application/{id}', 'JobApplicationController@edit');
+        Route::get('application/{id}/delete', 'JobApplicationController@delete');
+
+        //Route::get('/', function() {
+        //    return redirect('job_seeker/job_posts');
+        //});
 
         Route::get('job_posts', 'JobPostController@index');
-        Route::get('job_posts/{post_id}', 'JobPostController@show');
         Route::post('job_posts/{post_id}', 'JobPostController@apply');
+        Route::get('job_posts/{post_id}', 'JobPostController@show');
+        Route::get('job_posts/{post_id}/disp', 'JobPostController@disp');
+
+        Route::get('account', 'ProfileController@show');
+
+        Route::get('account/edit', 'ProfileController@edit');
+        Route::put('account/edit', 'ProfileController@update');
+
+        Route::get('account/edit_level', 'ProfileController@edit_level');
+        Route::put('account/edit_level', 'ProfileController@save_level');
+
+
 
     });
 });
@@ -113,10 +137,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::view('/', 'admin.dashboard');
     });
 });
-
-//Route::group(['middleware' => 'check_invoice'], function () {
-//    Route::get('payment_needed', 'SuspendedController@index');
-//});
 
 
 
