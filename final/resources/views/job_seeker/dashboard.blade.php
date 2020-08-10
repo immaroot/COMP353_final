@@ -7,7 +7,7 @@
                 <div class ="row">
                     <div class = "col text-center">
                         <h1 class="text-center"> Welcome Job Seeker!</h1>
-                        <a class="btn btn-primary" href=""> Search for Jobs!</a>
+                        <a class="btn btn-primary" href="job_seeker/job_posts"> Search for Jobs!</a>
                     </div>
                 </div>
             </div>
