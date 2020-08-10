@@ -19,9 +19,6 @@ class JobSeeker extends User
         });
     }
 
-    public function applications(){
-        return $this->hasMany('App\JobApplication', 'job_seeker_id')->get();
-    }
     public function profile()
     {
         return $this->hasOne('App\JobSeekerAccount', 'job_seeker_id', 'id');
@@ -35,5 +32,10 @@ class JobSeeker extends User
     public function applications()
     {
         return $this->hasMany('App\JobApplication', 'job_seeker_id', 'id');
+    }
+
+    public function payment_methods()
+    {
+        return PaymentMethod::where('account_id', $this->id)->where('account_role', '1')->get();
     }
 }

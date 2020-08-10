@@ -10,17 +10,22 @@ class JobSeekerAccount extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\JobSeeker');
+        return $this->hasOne('App\JobSeeker', 'id', 'job_seeker_id');
     }
 
     public function payments()
     {
-        return Payment::where('account_id', $this->id)->where('account_role', '2')->get();
+        return Payment::where('account_id', $this->id)->where('account_role', '1')->get();
     }
 
     public function payment_methods()
     {
         return PaymentMethod::where('account_id', $this->id)->where('account_role', '2')->get();
+    }
+
+    public function auto_payment()
+    {
+        return PaymentMethod::where('account_id', $this->id)->where('account_role', '1')->where('is_automatic', 1)->first();
     }
 
     public function invoices()
@@ -35,7 +40,7 @@ class JobSeekerAccount extends Model
 
     public function applications()
     {
-        return $this->user()->applications;
+        return $this->user->applications();
     }
 
     public function currentApplicationCount()

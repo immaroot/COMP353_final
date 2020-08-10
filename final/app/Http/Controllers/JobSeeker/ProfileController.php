@@ -93,4 +93,9 @@ class ProfileController extends Controller
         return redirect('job_seeker/account');
 
     }
+
+    public function upgrade()
+    {
+        return view('job_seeker.account.upgrade');
+    }
 }

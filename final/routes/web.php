@@ -88,37 +88,51 @@ Route::group(['prefix' => 'job_seeker'], function () {
     //Authenticated Routes
     Route::group(['middleware' => 'auth:job_seeker', 'namespace' => 'JobSeeker'], function () {
 
-
-        Route::get('/', 'DashboardController@show');
-
-
-
-        Route::get('jobPostings', 'JobPostingsController@index');
-        Route::get('apply/{id}', 'ApplyJobController@create');
-
-
-        Route::get('application/{id}', 'JobApplicationController@show');
-        Route::put('application/{id}', 'JobApplicationController@edit');
-        Route::get('application/{id}/delete', 'JobApplicationController@delete');
-
-        //Route::get('/', function() {
-        //    return redirect('job_seeker/job_posts');
-        //});
-
-        Route::get('job_posts', 'JobPostController@index');
-        Route::post('job_posts/{post_id}', 'JobPostController@apply');
-        Route::get('job_posts/{post_id}', 'JobPostController@show');
-        Route::get('job_posts/{post_id}/disp', 'JobPostController@disp');
-
-        Route::get('account', 'ProfileController@show');
-
-        Route::get('account/edit', 'ProfileController@edit');
-        Route::put('account/edit', 'ProfileController@update');
-
-        Route::get('account/edit_level', 'ProfileController@edit_level');
-        Route::put('account/edit_level', 'ProfileController@save_level');
+        Route::get('payments', 'PaymentsController@index');
+        Route::get('payments/make', 'PaymentsController@makePayment');
+        Route::post('payments/make', 'PaymentsController@processPayment');
+        Route::get('payments/methods', 'PaymentMethodsController@index');
+        Route::get('payments/methods/add', 'PaymentMethodsController@create');
+        Route::post('payments/methods', 'PaymentMethodsController@store');
+        Route::get('payments/methods/{id}/edit', 'PaymentMethodsController@edit');
+        Route::put('payments/methods/{id}', 'PaymentMethodsController@update');
+        Route::delete('payments/methods/{id}', 'PaymentMethodsController@destroy');
+        Route::get('payments/preference', 'PaymentMethodsController@showPreference');
+        Route::put('payments/preference', 'PaymentMethodsController@updatePreference');
 
 
+        Route::group(['middleware' => 'check_invoice'], function () {
+
+            Route::get('/', 'DashboardController@show');
+
+
+            Route::get('jobPostings', 'JobPostingsController@index');
+            Route::get('apply/{id}', 'ApplyJobController@create');
+
+
+            Route::get('application/{id}', 'JobApplicationController@show');
+            Route::put('application/{id}', 'JobApplicationController@edit');
+            Route::get('application/{id}/delete', 'JobApplicationController@delete');
+
+            //Route::get('/', function() {
+            //    return redirect('job_seeker/job_posts');
+            //});
+
+            Route::get('job_posts', 'JobPostController@index');
+            Route::post('job_posts/{post_id}', 'JobPostController@apply');
+            Route::get('job_posts/{post_id}', 'JobPostController@show');
+            Route::get('job_posts/{post_id}/disp', 'JobPostController@disp');
+
+            Route::get('account', 'ProfileController@show');
+
+            Route::get('account/edit', 'ProfileController@edit');
+            Route::put('account/edit', 'ProfileController@update');
+
+            Route::get('account/edit_level', 'ProfileController@edit_level');
+            Route::put('account/edit_level', 'ProfileController@save_level');
+            Route::get('account/upgrade', 'ProfileController@upgrade');
+
+        });
 
     });
 });

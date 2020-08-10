@@ -13,12 +13,12 @@
     </div>
     <div class="row">
         <div class="col">
-            <h2>Application #{{$app->id}}</h3>
+            <h3>Application #{{$app->id}}</h3>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <h2>Your current message:</h3>
+            <h3>Your current message:</h3>
         </div>
     </div>
     <div class="row">
@@ -58,7 +58,7 @@
 
     <div class="row">
         <div class="col">
-            <h2>Would you like to delete your application?</h3>
+            <h3>Would you like to delete your application?</h3>
         </div>
     </div>
     <div class="row">

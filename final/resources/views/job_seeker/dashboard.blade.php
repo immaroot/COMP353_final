@@ -13,8 +13,10 @@
             </div>
     </div>
     <nav class="nav pb-5">
+        <a class="nav-link" href="{{ url('job_seeker/applications') }}">Manage Applications</a>
         <a class="nav-link" href="{{ url('job_seeker/account') }}">Manage Account</a>
         <a class="nav-link" href="{{ url('job_seeker/payments') }}">Payments</a>
+
     </nav>
     <div class="row">
         <div class="col">
@@ -31,21 +33,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                @for ($i = 0; $i < count($applications); $i++)
+                @foreach($applications as $application)
                 <tr>
-                    <td>{{ $details[$i] -> position}}
-                    <td>{{ $details[$i] -> created_at}}</td>
-                    <td>{{ $applications[$i] -> created_at}}</td>
-                    <td><a class="btn btn-primary" href="{{url('job_seeker/job_posts/'.$applications[$i]->job_post_id.'/disp')}}">View Job Post</a></td>
-                    @if ($applications[$i] -> status == 1)
-                    <td><h2>You've been hired!</h2></td>
-                    @elseif ($applications[$i] -> status == 2)
-                    <td><a class = "btn btn-secondary" href="{{url('job_seeker/application/'.$applications[$i]->id.'/delete')}}">You've been denied.. click to remove</a></td>
-                    @else
-                    <td><a class="btn btn-secondary" href="{{url('job_seeker/application/'.$applications[$i]->id)}}">Modify Application</a></td>
-                    @endif
+                    <td>{{ $application->job_post->position }}
+                    <td>{{ $application->job_post->created_at }}</td>
+                    <td>{{ $application->created_at }}</td>
+                    <td><a class="btn btn-primary" href="{{url('job_seeker/job_posts/'. $application->job_post->id .'/disp')}}">View Job Post</a></td>
+                    <td>{{ $application->application_status->name }}</td>
                 </tr>
-                @endfor
+                @endforeach
                 </tbody>
             </table>
             @else
