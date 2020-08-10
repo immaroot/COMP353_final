@@ -20,4 +20,9 @@ class Invoices extends Model
             return false;
         }
     }
+
+    public function is_paid()
+    {
+        return !$this->payment_id == null;
+    }
 }

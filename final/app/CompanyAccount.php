@@ -27,12 +27,12 @@ class CompanyAccount extends Model
 
     public function invoices()
     {
-        return Payment::where('account_id', $this->id)->where('account_role', '2')->get();
+        return Invoices::where('account_id', $this->id)->where('account_role', '2')->get();
     }
 
     public function current_invoice()
     {
-        return Payment::where('account_id', $this->id)->where('account_role', '2')->get();
+        return Invoices::where('account_id', $this->id)->where('account_role', '2')->orderBy('created_at', 'desc')->first();
     }
 
     public function payment_methods()
