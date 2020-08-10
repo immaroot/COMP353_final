@@ -101,6 +101,7 @@ Route::group(['prefix' => 'job_seeker'], function () {
         Route::get('job_posts', 'JobPostController@index');
         Route::post('job_posts/{post_id}', 'JobPostController@apply');
         Route::get('job_posts/{post_id}', 'JobPostController@show');
+        Route::get('job_posts/{post_id}/disp', 'JobPostController@disp');
 
 
 

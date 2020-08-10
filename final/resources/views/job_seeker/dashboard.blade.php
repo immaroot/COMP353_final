@@ -32,7 +32,7 @@
                     <td>{{ $details[$i] -> position}}
                     <td>{{ $details[$i] -> created_at}}</td>
                     <td>{{ $applications[$i] -> created_at}}</td>
-                    <td><a class="btn btn-primary" href="">View Job Post</a></td>
+                    <td><a class="btn btn-primary" href="{{url('job_seeker/job_posts/'.$applications[$i]->job_post_id.'/disp')}}">View Job Post</a></td>
                     @if ($applications[$i] -> status == 1)
                     <td><h2>You've been hired!</h2></td>
                     @elseif ($applications[$i] -> status == 2)
