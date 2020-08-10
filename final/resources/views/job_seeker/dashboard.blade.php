@@ -33,7 +33,7 @@
                     <td>{{ $details[$i] -> created_at}}</td>
                     <td>{{ $applications[$i] -> created_at}}</td>
                     <td><a class="btn btn-primary" href="">View Job Post</a></td>
-                    <td><a class="btn btn-secondary" href="">Modify Application</a></td>
+                    <td><a class="btn btn-secondary" href="{{url('job_seeker/application/'.$details[$i]->id)}}">Modify Application</a></td>
                 </tr>
                 @endfor
                 </tbody>
