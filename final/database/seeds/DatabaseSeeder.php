@@ -24,8 +24,6 @@ class DatabaseSeeder extends Seeder
             ]
         ]);
 
-        DB::disconnect();
-
 
         DB::table('application_status')->insert([
             [
@@ -39,8 +37,6 @@ class DatabaseSeeder extends Seeder
                 'name' => 'denied'
             ]
         ]);
-
-        DB::disconnect();
 
         DB::table('job_categories')->insert([
             [

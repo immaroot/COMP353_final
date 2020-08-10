@@ -3,7 +3,6 @@
 @section('content')
     <div class="container">
         <nav class="nav pb-5">
-            <a class="nav-link" href="{{  url('employer/payments/methods/add')  }}">Add A Payment Method</a>
             <a class="nav-link" href="{{  url('employer/payments')  }}">Back</a>
         </nav>
         <div class="row">

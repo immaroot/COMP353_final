@@ -26,66 +26,6 @@ class PaymentMethodsController extends Controller
         return view('employer.payments.methods.index', ['payment_methods' => $payment_methods]);
     }
 
-    public function create()
-    {
-        Auth::guard('employer')->check();
-        $employer = Employer::findOrfail(Auth::guard('employer')->user()->id);
-
-        if (!$this->userCanManagePayments($employer))
-        {
-            return abort('404');
-        }
-
-        return view('employer.payments.methods.create');
-    }
-
-    public function store(Request $request)
-    {
-        Auth::guard('employer')->check();
-
-        $employer = Auth::guard('employer')->user();
-
-        if (!$this->userCanManagePayments($employer))
-        {
-            return abort('404');
-        }
-
-        $request->validate([
-            'payment_method' => 'required',
-            'card_number' => 'required',
-        ]);
-
-        $payment_methods = PaymentMethod::all();
-
-        if ($request['preferred'] == "true")
-        {
-            foreach ($payment_methods as $payment_method)
-            {
-                $payment_method->is_preferred = false;
-                $payment_method->save();
-            }
-        }
-
-        $payment_method = new PaymentMethod();
-        $payment_method->method = $request['payment_method'];
-        $payment_method->card_number = $request['card_number'];
-        $payment_method->account_role = 2;
-        $payment_method->account_id = $employer->company()->id;
-
-        $payment_method->is_automatic = $request['automatic'] == "true";
-        $payment_method->is_preferred = $request['preferred'] == "true";
-
-        if ($employer->company()->payment_methods()->count() < 1)
-        {
-            $payment_method->is_preferred = true;
-        }
-
-
-        $payment_method->save();
-
-        return redirect('employer/payments/methods');
-    }
-
     public function edit($id)
     {
         Auth::guard('employer')->check();
@@ -153,7 +93,7 @@ class PaymentMethodsController extends Controller
             'preference' => 'required',
         ]);
 
-        $payment_methods = $employer->company()->payment_methods();
+        $payment_methods = PaymentMethod::all();
         $preferred_method = PaymentMethod::findOrFail($request['preference']);
 
         if (!$this->userCanManagePayments($employer) || !$this->paymentMethodBelongsToCompanyAccount($employer, $preferred_method))
@@ -164,6 +104,7 @@ class PaymentMethodsController extends Controller
         foreach ($payment_methods as $payment_method)
         {
             $payment_method->is_preferred = false;
+            $payment_method->is_automatic = false;
             $payment_method->save();
         }
 
@@ -184,13 +125,6 @@ class PaymentMethodsController extends Controller
         if (!$this->userCanManagePayments($employer) || !$this->paymentMethodBelongsToCompanyAccount($employer, $payment_method))
         {
             return abort('404');
-        }
-
-        if ($payment_method->is_preferred == true)
-        {
-            $next_preferred = $employer->company()->payment_methods()->except($payment_method->id)->first();
-            $next_preferred->is_preferred = true;
-            $next_preferred->save();
         }
 
         $payment_method->delete();

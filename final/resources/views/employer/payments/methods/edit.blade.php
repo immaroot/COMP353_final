@@ -17,7 +17,7 @@
                             <input type="hidden" id="payment_method_id" name="payment_method_id" value="{{ $payment_method_id }}">
 
                             <div class="form-group row">
-                                <label for="payment_method" class="col-md-4 col-form-label text-md-right">{{ __('Payment Method') }}</label>
+                                <label for="position" class="col-md-4 col-form-label text-md-right">{{ __('Payment Method') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="payment_method" type="text" class="form-control @error('payment_method') is-invalid @enderror" name="payment_method" value="{{ $payment_method }}" required autocomplete="payment_method" autofocus>
@@ -31,7 +31,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="card_number" class="col-md-4 col-form-label text-md-right">{{ __('Card Number') }}</label>
+                                <label for="description" class="col-md-4 col-form-label text-md-right">{{ __('Card Number') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="card_number" type="text" class="form-control @error('card_number') is-invalid @enderror" name="card_number" value="{{ $card_number }}" required autocomplete="card_number" autofocus>
