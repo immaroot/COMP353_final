@@ -21,7 +21,7 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::group(['prefix' => 'employer'], function () {
 
     Route::get('login', 'Auth\EmployerLoginController@showEmployerLoginForm');
-    Route::post('login', 'Auth\EmployerLoginController@login');
+    Route::post('login', 'Auth\EmployerLoginController@login')->middleware('check_invoice');
 
     Route::get('register', 'Auth\EmployerRegisterController@showEmployerRegisterForm');
     Route::post('register', 'Auth\EmployerRegisterController@createEmployer');
@@ -29,43 +29,50 @@ Route::group(['prefix' => 'employer'], function () {
     //Authenticated Routes
     Route::group(['middleware' => 'auth:employer', 'namespace' => 'Employer'], function () {
 
-        Route::get('/', 'DashboardController@show');
-
-        Route::get('job_posts', 'JobPostController@index');
-        Route::get('job_posts/create', 'JobPostController@create');
-        Route::post('job_posts', 'JobPostController@store');
-        Route::get('job_posts/{job_id}', 'JobPostController@show');
-        Route::get('job_posts/{job_id}/edit/', 'JobPostController@edit');
-        Route::put('job_posts/{job_id}', 'JobPostController@update');
-        Route::delete('job_posts/{job_id}', 'JobPostController@destroy');
-        Route::get('job_posts/{job_id}/remove', 'JobPostController@remove');
-
-        Route::get('employees', 'EmployeeController@index');
-        Route::post('employees', 'EmployeeController@store');
-        Route::get('employees/create', 'EmployeeController@create');
-        Route::delete('employees/{id}', 'EmployeeController@destroy');
 
         Route::get('payments', 'PaymentsController@index');
+        Route::get('payments/make', 'PaymentsController@makePayment');
+        Route::post('payments/make', 'PaymentsController@processPayment');
         Route::get('payments/methods', 'PaymentMethodsController@index');
+        Route::get('payments/methods/add', 'PaymentMethodsController@create');
+        Route::post('payments/methods', 'PaymentMethodsController@store');
         Route::get('payments/methods/{id}/edit', 'PaymentMethodsController@edit');
         Route::put('payments/methods/{id}', 'PaymentMethodsController@update');
         Route::delete('payments/methods/{id}', 'PaymentMethodsController@destroy');
         Route::get('payments/preference', 'PaymentMethodsController@showPreference');
         Route::put('payments/preference', 'PaymentMethodsController@updatePreference');
 
-        Route::get('account', 'CompanyAccountController@index');
-        Route::get('account/upgrade', 'CompanyAccountController@upgrade');
-        Route::get('account/profile/edit', 'CompanyAccountController@edit');
-        Route::put('account/profile/edit', 'CompanyAccountController@update');
-        Route::get('account/profile/edit_level', 'CompanyAccountController@editMembership');
-        Route::put('account/profile/edit_level', 'CompanyAccountController@updateMembership');
+        Route::group(['middleware' => 'check_invoice'], function () {
+            Route::get('/', 'DashboardController@show');
 
-        Route::get('applications', 'ApplicationsController@summary');
-        Route::get('applications/{post_id}', 'ApplicationsController@index');
-        Route::get('applications/{post_id}/{application_id}', 'ApplicationsController@show');
-        Route::put('applications/{post_id}/{application_id}', 'ApplicationsController@update');
+            Route::get('job_posts', 'JobPostController@index');
+            Route::get('job_posts/create', 'JobPostController@create');
+            Route::post('job_posts', 'JobPostController@store');
+            Route::get('job_posts/{job_id}', 'JobPostController@show');
+            Route::get('job_posts/{job_id}/edit/', 'JobPostController@edit');
+            Route::put('job_posts/{job_id}', 'JobPostController@update');
+            Route::delete('job_posts/{job_id}', 'JobPostController@destroy');
+            Route::get('job_posts/{job_id}/remove', 'JobPostController@remove');
 
-        Route::get('view_profile/{job_id}', 'JobSeekerProfileController@show');
+            Route::get('employees', 'EmployeeController@index');
+            Route::post('employees', 'EmployeeController@store');
+            Route::get('employees/create', 'EmployeeController@create');
+            Route::delete('employees/{id}', 'EmployeeController@destroy');
+
+            Route::get('account', 'CompanyAccountController@index');
+            Route::get('account/upgrade', 'CompanyAccountController@upgrade');
+            Route::get('account/profile/edit', 'CompanyAccountController@edit');
+            Route::put('account/profile/edit', 'CompanyAccountController@update');
+            Route::get('account/profile/edit_level', 'CompanyAccountController@editMembership');
+            Route::put('account/profile/edit_level', 'CompanyAccountController@updateMembership');
+
+            Route::get('applications', 'ApplicationsController@summary');
+            Route::get('applications/{post_id}', 'ApplicationsController@index');
+            Route::get('applications/{post_id}/{application_id}', 'ApplicationsController@show');
+            Route::put('applications/{post_id}/{application_id}', 'ApplicationsController@update');
+
+            Route::get('view_profile/{id}', 'JobSeekerProfileController@show');
+        });
     });
 });
 

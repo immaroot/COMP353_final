@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Invoices extends Model
@@ -10,7 +11,7 @@ class Invoices extends Model
     {
         if($this->account_role == 1)
         {
-            return CompanyAccount::find($this->account_id);
+            return JobSeekerAccount::find($this->account_id);
         }
         elseif($this->account_role == 2)
         {
@@ -19,5 +20,16 @@ class Invoices extends Model
         else {
             return false;
         }
+    }
+
+    public function is_paid()
+    {
+        return !$this->payment_id == null;
+    }
+
+    public function diff_days()
+    {
+        $now = Carbon::now();
+        return $this->created_at->diffInDays($now);
     }
 }
