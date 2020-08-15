@@ -8,3 +8,6 @@ The team members involved in this project are:
 - Sherif Ghaffar 40058600
 - Frank Sorschak 40003535
 - Killian Kelly 40014508
+
+## To install the application, please refer to the wiki
+[wiki - Install the application locally](https://github.com/immaroot/COMP353_final/wiki/Install-the-application-locally)
